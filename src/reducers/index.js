@@ -1,8 +1,55 @@
+import { combineReducers } from "redux";
+
+import {FETCHING, FET_SUCCESS, FET_FAIL, ADD_SMURF, ERROR} from '../actions'
 
 export const initialState = {
+    smurfs: [{
+        id:'',
+        name:'',
+        position:'',
+        nickname:'',
+        description:''
+    }],
+    isFetching: false,
+    error: ''
 }
 
-const reducer = ()=>{
+const reducer = ( state=initialState, action)=>{
+    switch(action.type){
+        case FETCHING:
+            return ({
+                ...state, 
+                isFetching: true 
+            });
+
+        case FET_SUCCESS: 
+            return({
+                ...state, 
+                smurfs: action.payload, 
+                isFetching: false
+            });
+
+        case FET_FAIL: 
+            return({
+                ...state, 
+                isFetching: false});
+
+        case ADD_SMURF: 
+            return({ 
+                ...state, 
+                smurfs: [...state.smurfs, action.payload]
+            });
+
+        case ERROR: 
+            return({
+                ...state, 
+                error: action.payload
+            });
+
+        default:
+            return state;
+    }
+    
 }
 
 //**************DO NOT EDIT ANY CODE BEYOND THIS POINT**************//
